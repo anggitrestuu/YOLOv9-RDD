@@ -5,20 +5,22 @@ import shutil
 from pathlib import Path
 
 DATA_RAW_DIR = "data/raw"
-DATA_PROCESSED_DIR = "data/processed2"
+DATA_PROCESSED_DIR = "data/processed"
 
-prefix_name = "D40"
+prefix_name = "D00_D10_D20"
 
 # Class mapping
 CLASS_MAPPING = {
-    # "D00": 0,  # Longitudinal Crack
-    # "D10": 1,  # Transverse Crack
-    # "D20": 2,  # Alligator Crack
-    "D40": 3,  # Pothole
+    "D00": 0,  # Longitudinal Crack
+    "D10": 1,  # Transverse Crack
+    "D20": 2,  # Alligator Crack
+    # "D40": 3,  # Pothole
 }
 
-BALANCE_MODE = "max"  # Can be "min" or "max"   
-MIN_ANNOTATIONS_PER_CLASS = 300
+# Dataset balancing configuration
+ENABLE_BALANCING = False  # Set to False to skip balancing
+BALANCE_MODE = "min"  # Can be "min" or "max"   
+MIN_ANNOTATIONS_PER_CLASS = 100
 MAX_ANNOTATIONS_PER_CLASS = 400  # Add this new constant
 
 
@@ -59,7 +61,8 @@ def collect_annotations():
     """Collect all annotations and their distribution"""
     annotations = defaultdict(list)
 
-    for dataset in ["Japan", "China_Motorbike", "China_Drone"]:
+    for dataset in ["China_Motorbike", "China_Drone"]:
+    # for dataset in ["United_States/train",]:
         xml_dir = Path(DATA_RAW_DIR) / dataset / "annotations" / "xmls"
         img_dir = Path(DATA_RAW_DIR) / dataset / "images"
 
@@ -189,13 +192,24 @@ def main():
     print("Collecting annotations...")
     annotations = collect_annotations()
 
-    # Balance dataset
-    print("\nBalancing dataset...")
-    balanced_data = balance_dataset(annotations)
+    # Process the dataset with or without balancing
+    data_to_save = None
+    
+    if ENABLE_BALANCING:
+        print("\nBalancing dataset...")
+        data_to_save = balance_dataset(annotations)
+    else:
+        print("\nSkipping dataset balancing...")
+        # Just combine all annotations without balancing
+        data_to_save = []
+        for class_anns in annotations.values():
+            data_to_save.extend(class_anns)
+        # Still print the distribution for information
+        print_class_distribution(annotations)
 
     # Save in YOLO format
     print("\nSaving in YOLO format...")
-    save_yolo_format(DATA_PROCESSED_DIR, balanced_data)
+    save_yolo_format(DATA_PROCESSED_DIR, data_to_save)
 
     print("\nConversion complete!")
 

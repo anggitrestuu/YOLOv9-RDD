@@ -17,7 +17,8 @@ CLASS_MAPPING = {
     # "D40": 3,  # Pothole
 }
 
-BALANCE_MODE = "max"  # Can be "min" or "max"
+
+BALANCE_MODE = "min"  # Can be "min" or "max"
 MIN_ANNOTATIONS_PER_CLASS = 1000
 MAX_ANNOTATIONS_PER_CLASS = 1500 
 

@@ -14,7 +14,7 @@ CLASS_MAPPING = {
 REV_CLASS_MAPPING = {v: k for k, v in CLASS_MAPPING.items()}
 
 
-def count_annotations(processed_dir="data/processed2"):
+def count_annotations(processed_dir="data/processed"):
     """Count annotations for each class in the processed dataset"""
     labels_dir = Path(processed_dir) / "labels"
 
