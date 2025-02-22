@@ -1,6 +1,6 @@
 import os
 
-DIR_DATASET = "china_d40"
+DIR_DATASET = "D40"
 
 DIR_DATASET_D40 = f"{DIR_DATASET}/train/labels"
 

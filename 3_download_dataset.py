@@ -2,10 +2,7 @@ import shutil
 
 DATA_PROCESSED_DIR = "data/augmented"
 
-CHINA_D20 = "https://app.roboflow.com/ds/H0jUKXLPrn?key=Br1har67T7"
-CHINA_D40 = "https://app.roboflow.com/ds/eTpfv03Jcy?key=XM2UyYofaH"
-
-# TODO : download dataset with curl and show progress bar
+D40 = "https://app.roboflow.com/ds/NfQAnyZJiC?key=HENqBzciJu"
 
 import subprocess
 
@@ -22,9 +19,7 @@ def download_dataset(url, output_path):
 
 
 def main():
-    # Example usage
-    # download_dataset(CHINA_D20, "china_d20.zip")
-    download_dataset(CHINA_D40, "china_d40.zip")
+    download_dataset(D40, "D40.zip")
 
 
 if __name__ == "__main__":
